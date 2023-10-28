@@ -5,17 +5,17 @@
 
 int isSorted(int *array, int size);
 
-int bubbleSort( );
+int bubbleSort(int *array, int size);
 
 void selectionSort( );
 
 void insertionSort( );
 
-void heapSort(int size, int *array);
+void heapSort( );
 
-void mergeSort(int *vet, int start, int end);
+void mergeSort( );
 
-int quickSort(int *array, int low, int high);
+int quickSort( );
 
 void countSort( );
 

@@ -13,9 +13,24 @@ int isSorted(int *array, int size)
 }
 
 // Implementado por:
-int bubbleSort( )
+int bubbleSort(int *array, int size)
 {
-
+    int i, j;
+    //int swapped;
+    for (i = 0; i < size - 1; i++) {
+        //swapped = 0;
+        for (j = 0; j < size - i - 1; j++) {
+            if (array[j] > array[j + 1]) {
+                int aux = array[j]; array[j] = array[j + 1]; array[j+1]= aux;
+                //swapped = 1;
+            }
+        }
+ 
+        // If no two elements were swapped
+        // by inner loop, then break
+        //if (swapped == 0)
+        //    break;
+    }
 }
 
 // Implementado por:
@@ -31,19 +46,19 @@ void insertionSort( )
 }
 
 //Implementado por: Alisson
-void heapSort(int size, int *array)
+void heapSort( )
 {
 
 }
 
 // Implementado por: Alisson
-void mergeSort(int *vet, int start, int end)
+void mergeSort( )
 {
 
 }
 
 //Implementado por: Alisson
-int quickSort(int *array, int low, int high)
+int quickSort( )
 {
 
 }

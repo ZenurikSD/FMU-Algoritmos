@@ -1,12 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "sorts.h"
 
-void fillWithRandom(int *array, int size);
-void saveArray(int *array, int size, char *filename);
 int readArray(int *target, int size, char *filename);
-
 
 int main(void)
 {
@@ -21,21 +19,84 @@ int main(void)
     printf("Digite o nome do arquivo: ");
     scanf("%s", &filename);
 
-    // Preenche "n" vetores com valores aleatórios, fazendo umas coisas extras pra ter nomes de arquivos diferentes
-    array = malloc(sizeof(int) * size);
+    //Seleção do algoritmo
+    int option = 1;
+    do{
+        printf(
+            "Escolha um algoritmo de ordenação:\n"
+            "  [1] Bubble\n"
+            "  [2] Selection\n"
+            "  [3] Insertion\n"
+            "  [4] Heap\n"
+            "  [5] Merge\n"
+            "  [6] Quick\n"
+            "  [7] Count\n"
+            "  [8] Bucket\n"
+            "  [9] Radix\n\n"
+            "> "
+        );
+        scanf("%i", &option);
+    }
+    while(option < 1 && option > 9);
+
+
     char new_name[strlen(filename) + 4];
     char append[3];
+
+    // Lê todos os vetores com o nome escolhido, fazendo umas coisas extras pra escolher o arquivo com o sufixo certo
     for (int i = 0; i < array_qty; i++ ){
-        fillWithRandom(array, size);
+        array = malloc(sizeof(int) * size);
 
         sprintf(append, "-%i", i+1);
         strcpy(new_name, filename);
         strcat(new_name, append);
 
-        saveArray(array, size, new_name);
+        if (readArray(array, size, filename) != 0)
+        {
+            free(array);
+            return 1;
+        }
+
+        free(array);
     }
 
-    // TO-DO: Menu de seleção do algoritmo
+
+    //Verifica o tempo antes e depois da execução do algoritmo
+    clock_t time_c = clock();
+
+    switch(option){
+        case 1: 
+            bubbleSort(array, size);
+            break;
+        case 2: 
+            selectionSort();
+            break;
+        case 3: 
+            insertionSort();
+            break;
+        case 4: 
+            heapSort();
+            break;
+        case 5: 
+            mergeSort();
+            break;
+        case 6: 
+            quickSort();
+            break;
+        case 7: 
+            countSort();
+            break;
+        case 8: 
+            bucketSort();
+            break;
+        case 9: 
+            radixSort();
+            break;
+    }
+
+    float time_sec = (float) (clock() - time_c) / CLOCKS_PER_SEC;
+    printf("Tempo gasto: %f segundo(s)\n", time_sec);
+
 
     if (isSorted(array, size)){
         printf("Está ordenado\n");
@@ -48,29 +109,6 @@ int main(void)
     return 0;
 }
 
-
-/** Preenche um vetor com números inteiros aleatórios
- * @param array Um vetor vazio
- * @param size O tamanho do vetor
- */
-void fillWithRandom(int *array, int size)
-{
-    for (int i = 0; i < size; i++)
-    {
-        array[i] = rand();
-    }
-}
-
-
-/** Salva um vetor para um arquivo */
-void saveArray(int *array, int size, char *filename)
-{
-    FILE *write_p = fopen(filename, "w");
-    if (write_p != NULL){
-        fwrite(array, sizeof(int), size, write_p);
-        fclose(write_p);
-    }
-}
 
 /** Lê um vetor a partir de um arquivo e o armazena no buffer
  * @param target O vetor de destino (deve ter o mesmo tamanho do vetor no arquivo)
@@ -87,4 +125,6 @@ int readArray(int *target, int size, char *filename)
         fclose(read_p);
         return 1;
     }
+
+    return 0;
 }
