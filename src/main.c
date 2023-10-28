@@ -15,33 +15,66 @@ int main(void)
 
     // =============================================================================
     // Solicita o conjunto de vetores salvos em arquivos
-    printf("Digite o nome do arquivo que contém o vetor: ");
-    scanf("%s", &file_tmp);
-
-    printf("Digite o tamanho do vetor salvo: ");
+    printf("Qual o tamanho de vetor? ");
     scanf("%i", &size);
+    printf("Digite o \"caminho/nome\" dos vetores com esse tamanho: ");
+    scanf("%s", &file_tmp);
 
 
     // =============================================================================
-    // Lê todos os vetores de um tamanho e executa o algoritmo em cada um deles
-    char filename[strlen(file_tmp) + 6];
-    for (int i = 0; i < array_qty; i++ ){
-        int *array = malloc(sizeof(int) * size);
-        sprintf(filename, "%s-%i", file_tmp, i+1);
+    // Repete para todos os algoritmos: 
+    // Lê todos os vetores de tamanho X e executa o algoritmo em cada um deles
+    for (int algo_n = 1; algo_n < 4; algo_n++)
+    {
+        char filename[strlen(file_tmp) + 6];
+        for (int i = 0; i < array_qty; i++ ){
+            int *array = malloc(sizeof(int) * size);
+            sprintf(filename, "%s-%i", file_tmp, i+1);
 
-        readArray(array, size, filename);
+            readArray(array, size, filename);
 
-        bubbleSort(array, size);
+            // Executa um algoritmo para cada loop:
+            switch (algo_n){
+                case 1:
+                    bubbleSort(array, size);
+                    break;
+                case 2:
+                    selectionSort(array, size);
+                    break;
+                case 3:
+                    insertionSort(array, size);
+                    break;
+                /* case 4:
+                    heapSort(array, size);
+                    break;
+                case 5:
+                    mergeSort(array, size);
+                    break;
+                case 6:
+                    quickSort(array, size);
+                    break;
+                case 7:
+                    countSort(array, size);
+                    break;
+                case 8:
+                    bucketSort(array, size);
+                    break;
+                case 9:
+                    radixSort(array, size);
+                    break; */
+                default:
+                    break;
+            }
 
-        if (isSorted(array, size)){
-            printf("[%i] Está ordenado\n", i+1);
-        } else {
-            printf("[%i] Desordenado\n", i+1);
+            if (isSorted(array, size)){
+                printf("[%i] Está ordenado\n", i+1);
+            } else {
+                printf("[%i] Desordenado\n", i+1);
+            }
+
+            free(array);
         }
-
-        free(array);
     }
-
 }
 
 
