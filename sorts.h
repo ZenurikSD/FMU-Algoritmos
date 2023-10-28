@@ -5,11 +5,11 @@
 
 int isSorted(int *array, int size);
 
-int bubbleSort( );
+int bubbleSort(int *array, int size);
 
-void selectionSort( );
+void selectionSort(int *vetor, int size);
 
-void insertionSort( );
+void insertionSort(int *vetor, int size );
 
 void heapSort(int size, int *array);
 
