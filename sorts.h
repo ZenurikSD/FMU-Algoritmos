@@ -3,6 +3,8 @@
 
 //Protótipos das funções de sort
 
+int isSorted(int *array, int size);
+
 int bubbleSort( );
 
 void selectionSort( );

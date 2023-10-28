@@ -12,7 +12,7 @@ int main(void)
 {
     int *array;
     int size;
-    int array_qty = 5;
+    int array_qty = 1;
     char filename[200];
 
     printf("Digite o tamanho do vetor: ");
@@ -35,12 +35,16 @@ int main(void)
         saveArray(array, size, new_name);
     }
 
-    
+    // TO-DO: Menu de seleção do algoritmo
 
+    if (isSorted(array, size)){
+        printf("Está ordenado\n");
+    } else {
+        printf("Não está ordenado\n");
+    }
 
 
     free(array);
-   
     return 0;
 }
 
