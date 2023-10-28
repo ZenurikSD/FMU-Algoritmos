@@ -8,7 +8,6 @@ int readArray(int *target, int size, char *filename);
 
 int main(void)
 {
-    int *array;
     int size;
     int array_qty = 1;
     char filename[200];
@@ -40,14 +39,14 @@ int main(void)
     while(option < 1 && option > 9);
 
 
+    // Lê todos os vetores com o nome escolhido e executa o algoritmo em todos
     char new_name[strlen(filename) + 4];
-    char append[3];
-
-    // Lê todos os vetores com o nome escolhido, fazendo umas coisas extras pra escolher o arquivo com o sufixo certo
+    char append[10];
+    int *array;
     for (int i = 0; i < array_qty; i++ ){
         array = malloc(sizeof(int) * size);
 
-        sprintf(append, "-%i", i+1);
+        sprintf(append, "-%i.dat", i+1);
         strcpy(new_name, filename);
         strcat(new_name, append);
 
@@ -57,53 +56,51 @@ int main(void)
             return 1;
         }
 
+        //Verifica o tempo antes e depois da execução do algoritmo
+        clock_t time_c = clock();
+
+        switch(option){
+            case 1: 
+                bubbleSort(array, size);
+                break;
+            case 2: 
+                selectionSort();
+                break;
+            case 3: 
+                insertionSort();
+                break;
+            case 4: 
+                heapSort();
+                break;
+            case 5: 
+                mergeSort();
+                break;
+            case 6: 
+                quickSort();
+                break;
+            case 7: 
+                countSort();
+                break;
+            case 8: 
+                bucketSort();
+                break;
+            case 9: 
+                radixSort();
+                break;
+        }
+
+        float time_sec = (float) (clock() - time_c) / CLOCKS_PER_SEC;
+        printf("Tempo gasto: %f segundo(s)\n", time_sec);
+
+
+        if (isSorted(array, size)){
+            printf("Está ordenado\n");
+        } else {
+            printf("Não está ordenado\n");
+        }
+
         free(array);
     }
-
-
-    //Verifica o tempo antes e depois da execução do algoritmo
-    clock_t time_c = clock();
-
-    switch(option){
-        case 1: 
-            bubbleSort(array, size);
-            break;
-        case 2: 
-            selectionSort();
-            break;
-        case 3: 
-            insertionSort();
-            break;
-        case 4: 
-            heapSort();
-            break;
-        case 5: 
-            mergeSort();
-            break;
-        case 6: 
-            quickSort();
-            break;
-        case 7: 
-            countSort();
-            break;
-        case 8: 
-            bucketSort();
-            break;
-        case 9: 
-            radixSort();
-            break;
-    }
-
-    float time_sec = (float) (clock() - time_c) / CLOCKS_PER_SEC;
-    printf("Tempo gasto: %f segundo(s)\n", time_sec);
-
-
-    if (isSorted(array, size)){
-        printf("Está ordenado\n");
-    } else {
-        printf("Não está ordenado\n");
-    }
-
 
     free(array);
     return 0;
