@@ -9,35 +9,30 @@ int main(void)
 {
     int *array;
     int size;
-    int array_qty;
+    int array_qty = 50;
     char filename[200];
 
     printf("Digite o tamanho do vetor a ser gerado: ");
     scanf("%i", &size);
 
-    do{
-        printf("Quantos vetores? ");
-        scanf("%i", &array_qty);
-    }
-    while(array_qty < 1 || array_qty > 100);
-
-    printf("Digite o nome do arquivo: ");
+    printf("Digite o \"caminho/nome\" do arquivo: ");
     scanf("%s", &filename);
 
 
     // Preenche "n" vetores com valores aleatórios, fazendo umas coisas extras pra ter nomes de arquivos diferentes
     char new_name[strlen(filename) + 4];
-    char append[10];
+    char append[6];
 
     for (int i = 0; i < array_qty; i++ ){
         array = malloc(sizeof(int) * size);
         fillWithRandom(array, size);
 
-        sprintf(append, "-%i.dat", i+1);
+        sprintf(append, "-%i", i+1);
         strcpy(new_name, filename);
         strcat(new_name, append);
 
         if (saveArray(array, size, new_name) != 0){
+            printf("[ERRO] Não foi possível salvar o vetor '%s'\n", filename);
             free(array);
             return 1;
         };

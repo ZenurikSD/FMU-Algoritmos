@@ -7,21 +7,21 @@ int isSorted(int *array, int size);
 
 int bubbleSort(int *array, int size);
 
-void selectionSort( );
+int selectionSort( );
 
-void insertionSort( );
+int insertionSort( );
 
-void heapSort( );
+int heapSort( );
 
-void mergeSort( );
+int mergeSort( );
 
 int quickSort( );
 
-void countSort( );
+int countSort( );
 
-void bucketSort( );
+int bucketSort( );
 
-void radixSort( );
+int radixSort( );
 
 
 #endif
