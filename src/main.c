@@ -40,7 +40,7 @@ int main(void)
         // =============================================================================
         // Repete para todos os algoritmos: 
         // Lê todos os vetores de tamanho X e executa o algoritmo em cada um deles
-        for (int algo_n = 1; algo_n < 7; algo_n++)
+        for (int algo_n = 1; algo_n < 8; algo_n++)
         {
             char filename[strlen(file_tmp) + 6];
             result->timesum = 0;
@@ -82,14 +82,14 @@ int main(void)
                         quickSort(array, 0, size - 1);
                         break;
                     case 7:
-                        result->sortname = "Count";
+                        /* result->sortname = "Count";
                         countSort(array, size);
                         break;
                     case 8:
                         result->sortname = "Bucket";
                         bucketSort(array, size);
                         break;
-                    case 9:
+                    case 9: */
                         result->sortname = "Radix";
                         radixSort(array, size);
                         break;

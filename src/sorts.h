@@ -25,11 +25,19 @@ int partition(int *array, int low, int high);
 
 void quickSort(int *array, int low, int high);
 
-void countSort( );
+void countSort(int *array, int size);
 
-void bucketSort( );
+int findMax(int *array, int size);
 
-void radixSort( );
+void insertInBucket(int *array, int i, int bucket, int min, int range);
+
+void bucketSort(int *array, int size);
+
+int getDigit(int num, int position);
+
+int findMaxDigit(int *array, int n);
+
+void radixSort(int *array, int size);
 
 
 #endif

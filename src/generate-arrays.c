@@ -17,7 +17,7 @@ int main(void)
     scanf("%i", &size);
 
     printf("Digite o \"caminho/nome\" do arquivo: ");
-    scanf("%s", &filename);
+    scanf("%s", filename);
 
 
     // Preenche "n" vetores com valores aleatórios, fazendo umas coisas extras pra ter nomes de arquivos diferentes
