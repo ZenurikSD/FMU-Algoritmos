@@ -8,4 +8,5 @@ Análise do desempenho de 9 algoritmos de ordenação utilizando o número de co
     - Caminho: "vetores/vetor5"
     - Saída: 50 vetores de 5 números inteiros
 3. Execute o `main.c`:
-    - Insira o nome do vetor criado, **sem o sufixo do número no arquivo** (Exemplo: "vetor50" e não "vetor50-1")
+    - Insira o tamanho do vetor
+    - Insira o caminho + nome do vetor criado, **sem o sufixo do número no arquivo** (Exemplo: "vetor50" e não "vetor50-1")
