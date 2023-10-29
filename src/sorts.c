@@ -18,7 +18,7 @@ int isSorted(int *array, int size)
 
 // Implementado por: Gui Lindão
 int bubbleSort(int *array, int size) {
-    int index, j;
+    int index, j, compare_sum;
     int swapped;
     for (index = 0; index < size - 1; index++) {
         swapped = 0;
@@ -28,11 +28,14 @@ int bubbleSort(int *array, int size) {
                 array[j] = array[j + 1];
                 array[j+1]= aux;
                 swapped = 1;
+                compare_sum++;
             }
         }
         if (swapped == 0)
             break;
     }
+
+    return compare_sum;
 }
 
 // Implementado por: Gui

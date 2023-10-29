@@ -4,6 +4,12 @@
 #include <time.h>
 #include "sorts.h"
 
+//Armazena o nome do algoritmo usado e a soma das comparações feitas por ele
+typedef struct results{
+    char *sortname;
+    int comparesum;
+} results;
+
 int readArray(int *target, int size, char *filename);
 void printArray(int *array, int size);
 
@@ -12,6 +18,8 @@ int main(void)
     int size = 0;
     int array_qty = 50;
     char file_tmp[20];
+    results *result = malloc(sizeof(results) * 2);
+
 
     // =============================================================================
     // Solicita o conjunto de vetores salvos em arquivos
@@ -27,6 +35,8 @@ int main(void)
     for (int algo_n = 1; algo_n < 4; algo_n++)
     {
         char filename[strlen(file_tmp) + 6];
+        result->comparesum = 0;
+        result->sortname = " ";
 
         for (int i = 0; i < array_qty; i++ ){
             int *array = malloc(sizeof(int) * size);
@@ -37,7 +47,7 @@ int main(void)
             // Executa um algoritmo para cada loop:
             switch (algo_n){
                 case 1:
-                    bubbleSort(array, size);
+                    result->comparesum += bubbleSort(array, size);
                     break;
                 case 2:
                     selectionSort(array, size);
@@ -75,8 +85,12 @@ int main(void)
 
             free(array);
         }
+
+        printf("Soma de comparações bubblesort: %i\n", result->comparesum);
     }
+
     printf("✅ Todos os vetores foram processados\n");
+    free(result);
 }
 
 
