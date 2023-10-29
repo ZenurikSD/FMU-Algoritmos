@@ -1,19 +1,23 @@
+#include <stdio.h>
+
 /* Insira a implementação da função de sort aqui
  * Copie a declaração da função no arquivo header para que funcione no main
+ * Todos os sorts precisam ter um retorno do número de comparações IF que fazem
  */
 
 /** Verifica se um vetor está em ordem crescente */
 int isSorted(int *array, int size)
 {
-    for (int i = 0; i < size-1; i++){
-        if (array[i] > array[i+1])
+    for (int i = 1; i < size; i++){
+        if (array[i - 1] > array[i]){
             return 0;
+        }
     }
     return 1;
 }
 
 // Implementado por: Gui Lindão
-void bubbleSort(int *array, int size) {
+int bubbleSort(int *array, int size) {
     int index, j;
     int swapped;
     for (index = 0; index < size - 1; index++) {
@@ -32,62 +36,60 @@ void bubbleSort(int *array, int size) {
 }
 
 // Implementado por: Gui
-void selectionSort(int *vetor, int size) {
+int selectionSort(int *array, int size) {
    int index,j;
    for (index = 0; index < size-1; ++index) {
       int min = index; // vai procurar elemento que deve ir na posição index
       for (j = index+1; j < size; ++j) // procura o menor elemento
-         if (vetor[j] < vetor[min])  min = j;
-      int x = vetor[index]; vetor[index] = vetor[min]; vetor[min] = x; // coloca o elemento no local certo
+         if (array[j] < array[min])  min = j;
+      int x = array[index]; array[index] = array[min]; array[min] = x; // coloca o elemento no local certo
    }
 }
 
 // Implementado por: Gui
-// Esta função rearranja o vetor v[0..n-1]
-// em ordem crescente.
-void insertionSort (int *vetor, int size) {
+int insertionSort(int *array, int size) {
    int index;
    for ( index = 1; index < size; ++index) {
-      int x = vetor[index]; // valor da nova posição do vetor j, que será inserida
+      int x = array[index]; // valor da nova posição do vetor j, que será inserida
       int i;
-      for (i = index-1; i >= 0 && vetor[i] > x; --i) // desloca o elemento para a esquerda enquando é menor
-         vetor[i+1] = vetor[i];
-      vetor[i+1] = x; // insere o elemento na posição correta
+      for (i = index-1; i >= 0 && array[i] > x; --i) // desloca o elemento para a esquerda enquando é menor
+         array[i+1] = array[i];
+      array[i+1] = x; // insere o elemento na posição correta
    }
 }
 
 //Implementado por: Alisson
-void heapSort(int size, int *array)
+int heapSort( )
 {
 
 }
 
 // Implementado por: Alisson
-void mergeSort(int *vet, int start, int end)
+int mergeSort( )
 {
 
 }
 
 //Implementado por: Alisson
-int quickSort(int *array, int low, int high)
+int quickSort( )
 {
 
 }
 
 //Implementado por:
-void countSort( )
+int countSort( )
 {
 
 }
 
 //Implementado por:
-void bucketSort( )
+int bucketSort( )
 {
 
 }
 
 //Implementado por:
-void radixSort( )
+int radixSort( )
 {
 
 }
