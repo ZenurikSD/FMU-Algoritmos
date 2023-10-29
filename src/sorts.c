@@ -221,9 +221,9 @@ void quickSort(int *array, int low, int high)
     }
 }
 
-//Implementado por:
-void countSort(int arr[], int n) {
-    int max = arr[0];
+//Implementado por: Gilberto
+void countSort(int *array, int n) {
+    int max = array[0];
     for (int i = 1; i < n; i++) {
         if (arr[i] > max) {
             max = arr[i];
@@ -239,17 +239,17 @@ void countSort(int arr[], int n) {
         count[i] = 0;
     }
     for (int i = 0; i < n; i++) {
-        count[arr[i]]++;
+        count[array[i]]++;
     }
     for (int i = 1; i <= max; i++) {
         count[i] += count[i - 1];
     }
     for (int i = n - 1; i >= 0; i--) {
-        output[count[arr[i]] - 1] = arr[i];
-        count[arr[i]]--;
+        output[count[array[i]] - 1] = array[i];
+        count[array[i]]--;
     }
     for (int i = 0; i < n; i++) {
-        arr[i] = output[i];
+        array[i] = output[i];
     }
     free(count);
     free(output);
@@ -261,7 +261,7 @@ int bucketSort( )
 
 }
 
-//Implementado por:
+//Implementado por: Gilberto
 int getDigit(int num, int position) { // Função para encontrar o dígito na posição especificada
     int divider = 1;
     for (int i = 0; i < position; i++) {
@@ -269,11 +269,11 @@ int getDigit(int num, int position) { // Função para encontrar o dígito na po
     }
     return (num / divider) % 10;
 }
-int findMaxDigit(int arr[], int n) { // Função para encontrar o dígito mais significativo no vetor
-    int max = arr[0];
+int findMaxDigit(int *array, int n) { // Função para encontrar o dígito mais significativo no vetor
+    int max = array[0];
     for (int i = 1; i < n; i++) {
-        if (arr[i] > max) {
-            max = arr[i];
+        if (array[i] > max) {
+            max = array[i];
         }
     }
     int digitCount = 0;
@@ -283,25 +283,25 @@ int findMaxDigit(int arr[], int n) { // Função para encontrar o dígito mais s
     }
     return digitCount;
 }
-void radixSort(int arr[], int n) {
-    int maxDigit = findMaxDigit(arr, n);
+void radixSort(int *array, int n) {
+    int maxDigit = findMaxDigit(array, n);
     for (int position = 0; position < maxDigit; position++) {
         int output[n];
         int count[10] = {0};
         for (int i = 0; i < n; i++) {
-            int digit = getDigit(arr[i], position);
+            int digit = getDigit(array[i], position);
             count[digit]++;
         }
         for (int i = 1; i < 10; i++) {
             count[i] += count[i - 1];
         }
         for (int i = n - 1; i >= 0; i--) {
-            int digit = getDigit(arr[i], position);
-            output[count[digit] - 1] = arr[i];
+            int digit = getDigit(array[i], position);
+            output[count[digit] - 1] = array[i];
             count[digit]--;
         }
         for (int i = 0; i < n; i++) {
-            arr[i] = output[i];
+            array[i] = output[i];
         }
     }
 }
