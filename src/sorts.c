@@ -222,8 +222,54 @@ void quickSort(int *array, int low, int high)
 }
 
 //Implementado por: Gilberto
-
-void countSort( ) {
+// Função para ordenar um array de inteiros usando o algoritmo Counting Sort.
+void countSort(int *array, int n) {
+    // Encontre o valor máximo no array
+    int max = array[0];
+    for (int i = 1; i < n; i++) {
+        if (array[i] > max) {
+            max = array[i];
+        }
+    }
+    // Aloque memória para os arrays 'count' e 'output'
+    int *count = (int *)malloc((max + 1) * sizeof(int));
+    int *output = (int *)malloc(n * sizeof(int));
+    // Verifique se a alocação de memória foi bem-sucedida
+    if (count == NULL || output == NULL) {
+        printf("Falha na alocação de memória.\n");
+        // Libere qualquer memória alocada antes de sair
+        if (count != NULL) {
+            free(count);
+        }
+        if (output != NULL) {
+            free(output);
+        }
+        return;
+    }
+    // Inicialize o array 'count' com zeros
+    for (int i = 0; i <= max; i++) {
+        count[i] = 0;
+    }
+    // Conte a ocorrência de cada valor no array de entrada
+    for (int i = 0; i < n; i++) {
+        count[array[i]]++;
+    }
+    // Atualize o array 'count' para conter as posições corretas no array de saída
+    for (int i = 1; i <= max; i++) {
+        count[i] += count[i - 1];
+    }
+    // Coloque os elementos do array de entrada nas posições corretas do array de saída
+    for (int i = n - 1; i >= 0; i--) {
+        output[count[array[i]] - 1] = array[i];
+        count[array[i]]--;
+    }
+    // Copie os elementos ordenados de volta para o array de entrada
+    for (int i = 0; i < n; i++) {
+        array[i] = output[i];
+    }
+    // Libere a memória alocada para os arrays 'count' e 'output'
+    free(count);
+    free(output);
 }
 
 //Implementado por:
@@ -233,7 +279,51 @@ int bucketSort( )
 }
 
 //Implementado por: Gilberto
-
-void radixSort() {
-    
+int getDigit(int num, int position) { // Função para encontrar o dígito na posição especificada
+    int divider = 1;
+    for (int i = 0; i < position; i++) {
+        divider *= 10;
+    }
+    return (num / divider) % 10;
+}
+int findMaxDigit(int *array, int n) { // Função para encontrar o dígito mais significativo no vetor
+    int max = array[0];
+    for (int i = 1; i < n; i++) { // Encontre o valor máximo no vetor
+        if (array[i] > max) {
+            max = array[i];
+        }
+    }
+    int digitCount = 0;
+    while (max > 0) { // Conte o número de dígitos em max
+        max /= 10;
+        digitCount++;
+    }
+    return digitCount; // Retorna o número de dígitos no número máximo
+}
+// Função de ordenação Radix Sort
+void radixSort(int *array, int n) {
+    int maxDigit = findMaxDigit(array, n);
+    for (int position = 0; position < maxDigit; position++) { // Percorra cada posição dos dígitos, do menos significativo ao mais significativo
+        int output[n]; // Crie um vetor de saída para armazenar os resultados ordenados
+        int count[10] = {0};// Inicialize um vetor de contagem para os dígitos de 0 a 9
+        // Conte a ocorrência de cada dígito na posição atual
+        for (int i = 0; i < n; i++) {
+            int digit = getDigit(array[i], position);
+            count[digit]++;
+        }
+        // Atualize o vetor de contagem para conter as posições corretas no vetor de saída
+        for (int i = 1; i < 10; i++) {
+            count[i] += count[i - 1];
+        }
+        // Coloque os elementos do vetor de entrada nas posições corretas do vetor de saída
+        for (int i = n - 1; i >= 0; i--) {
+            int digit = getDigit(array[i], position);
+            output[count[digit] - 1] = array[i];
+            count[digit]--;
+        }
+        // Copie os elementos ordenados de volta para o vetor de entrada
+        for (int i = 0; i < n; i++) {
+            array[i] = output[i];
+        }
+    }
 }
