@@ -271,35 +271,40 @@ int getDigit(int num, int position) { // Função para encontrar o dígito na po
 }
 int findMaxDigit(int *array, int n) { // Função para encontrar o dígito mais significativo no vetor
     int max = array[0];
-    for (int i = 1; i < n; i++) {
+    for (int i = 1; i < n; i++) { // Encontre o valor máximo no vetor
         if (array[i] > max) {
             max = array[i];
         }
     }
     int digitCount = 0;
-    while (max > 0) {
+    while (max > 0) { // Conte o número de dígitos em max
         max /= 10;
         digitCount++;
     }
-    return digitCount;
+    return digitCount; // Retorna o número de dígitos no número máximo
 }
+// Função de ordenação Radix Sort
 void radixSort(int *array, int n) {
     int maxDigit = findMaxDigit(array, n);
-    for (int position = 0; position < maxDigit; position++) {
-        int output[n];
-        int count[10] = {0};
+    for (int position = 0; position < maxDigit; position++) { // Percorra cada posição dos dígitos, do menos significativo ao mais significativo
+        int output[n]; // Crie um vetor de saída para armazenar os resultados ordenados
+        int count[10] = {0};// Inicialize um vetor de contagem para os dígitos de 0 a 9
+        // Conte a ocorrência de cada dígito na posição atual
         for (int i = 0; i < n; i++) {
             int digit = getDigit(array[i], position);
             count[digit]++;
         }
+        // Atualize o vetor de contagem para conter as posições corretas no vetor de saída
         for (int i = 1; i < 10; i++) {
             count[i] += count[i - 1];
         }
+        // Coloque os elementos do vetor de entrada nas posições corretas do vetor de saída
         for (int i = n - 1; i >= 0; i--) {
             int digit = getDigit(array[i], position);
             output[count[digit] - 1] = array[i];
             count[digit]--;
         }
+        // Copie os elementos ordenados de volta para o vetor de entrada
         for (int i = 0; i < n; i++) {
             array[i] = output[i];
         }
