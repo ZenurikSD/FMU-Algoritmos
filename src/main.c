@@ -7,7 +7,7 @@
 //Armazena o nome do algoritmo usado e a soma das comparações feitas por ele
 typedef struct results{
     char *sortname;
-    int comparesum;
+    long comparesum;
 } results;
 
 int readArray(int *target, int size, char *filename);
@@ -18,7 +18,7 @@ int main(void)
     int size = 0;
     int array_qty = 50;
     char file_tmp[20];
-    results *result = malloc(sizeof(results) * 2);
+    results *result = malloc(sizeof(results) * 3);
 
 
     // =============================================================================
@@ -44,35 +44,44 @@ int main(void)
 
             readArray(array, size, filename);
 
-            // Executa um algoritmo para cada loop:
+            // Executa um algoritmo para cada loop exterior:
             switch (algo_n){
                 case 1:
+                    result->sortname = "Bubble";
                     result->comparesum += bubbleSort(array, size);
                     break;
                 case 2:
-                    selectionSort(array, size);
+                    result->sortname = "Selection";
+                    result->comparesum += selectionSort(array, size);
                     break;
                 case 3:
-                    insertionSort(array, size);
+                    result->sortname = "Insertion";
+                    result->comparesum += insertionSort(array, size);
                     break;
-                /* case 4:
-                    heapSort(array, size);
+                case 4:
+                    result->sortname = "Heap";
+                    result->comparesum += heapSort(array, size);
                     break;
                 case 5:
-                    mergeSort(array, size);
+                    result->sortname = "Merge";
+                    result->comparesum += mergeSort(array, size);
                     break;
                 case 6:
-                    quickSort(array, size);
+                    result->sortname = "Quick";
+                    result->comparesum += quickSort(array, size);
                     break;
                 case 7:
-                    countSort(array, size);
+                    result->sortname = "Count";
+                    result->comparesum += countSort(array, size);
                     break;
                 case 8:
-                    bucketSort(array, size);
+                    result->sortname = "Bucket";
+                    result->comparesum += bucketSort(array, size);
                     break;
                 case 9:
-                    radixSort(array, size);
-                    break; */
+                    result->sortname = "Radix";
+                    result->comparesum += radixSort(array, size);
+                    break;
                 default:
                     break;
             }
@@ -86,10 +95,14 @@ int main(void)
             free(array);
         }
 
-        printf("Soma de comparações bubblesort: %i\n", result->comparesum);
+        printf(
+            "Soma de comparações %s sort: %li\n", 
+            result->sortname,
+            result->comparesum
+        );
     }
 
-    printf("✅ Todos os vetores foram processados\n");
+    printf("✅ Todos os vetores[%i] foram processados\n", size);
     free(result);
 }
 

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 void fillWithRandom(int *array, int size);
 int saveArray(int *array, int size, char *filename);
@@ -52,6 +53,7 @@ void fillWithRandom(int *array, int size)
 {
     for (int i = 0; i < size; i++)
     {
+        srand(time(NULL));
         array[i] = rand();
     }
 }

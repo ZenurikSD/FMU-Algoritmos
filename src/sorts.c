@@ -40,23 +40,32 @@ int bubbleSort(int *array, int size) {
 
 // Implementado por: Gui
 int selectionSort(int *array, int size) {
-   int index,j;
+   int index,j, compare_sum;
    for (index = 0; index < size-1; ++index) {
       int min = index; // vai procurar elemento que deve ir na posição index
       for (j = index+1; j < size; ++j) // procura o menor elemento
-         if (array[j] < array[min])  min = j;
+         if (array[j] < array[min]){
+            min = j;
+            compare_sum++;
+         }
+            
       int x = array[index]; array[index] = array[min]; array[min] = x; // coloca o elemento no local certo
    }
+
+   return compare_sum;
 }
 
 // Implementado por: Gui
 int insertionSort(int *array, int size) {
-   int index;
+   int index, compare_sum;
    for ( index = 1; index < size; ++index) {
       int x = array[index]; // valor da nova posição do vetor j, que será inserida
       int i;
-      for (i = index-1; i >= 0 && array[i] > x; --i) // desloca o elemento para a esquerda enquando é menor
+
+      for (i = index-1; i >= 0 && array[i] > x; --i){  // desloca o elemento para a esquerda enquando é menor
          array[i+1] = array[i];
+         compare_sum++;
+      } 
       array[i+1] = x; // insere o elemento na posição correta
    }
 }
