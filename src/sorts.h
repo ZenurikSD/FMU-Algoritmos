@@ -11,7 +11,9 @@ int selectionSort(int *array, int size);
 
 int insertionSort(int *array, int size);
 
-int heapSort( );
+int heapify(int *array, int size, int i, long compare_sum);
+
+int heapSort(int *array, int size);
 
 int mergeSort( );
 

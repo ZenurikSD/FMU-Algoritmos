@@ -32,7 +32,7 @@ int main(void)
     // =============================================================================
     // Repete para todos os algoritmos: 
     // Lê todos os vetores de tamanho X e executa o algoritmo em cada um deles
-    for (int algo_n = 1; algo_n < 4; algo_n++)
+    for (int algo_n = 1; algo_n < 5; algo_n++)
     {
         char filename[strlen(file_tmp) + 6];
         result->comparesum = 0;

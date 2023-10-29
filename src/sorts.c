@@ -18,8 +18,9 @@ int isSorted(int *array, int size)
 
 // Implementado por: Gui Lindão
 int bubbleSort(int *array, int size) {
-    int index, j, compare_sum;
+    int index, j;
     int swapped;
+    long compare_sum;
     for (index = 0; index < size - 1; index++) {
         swapped = 0;
         for (j = 0; j < size - index - 1; j++) {
@@ -40,7 +41,9 @@ int bubbleSort(int *array, int size) {
 
 // Implementado por: Gui
 int selectionSort(int *array, int size) {
-   int index,j, compare_sum;
+   int index,j;
+   long compare_sum;
+   
    for (index = 0; index < size-1; ++index) {
       int min = index; // vai procurar elemento que deve ir na posição index
       for (j = index+1; j < size; ++j) // procura o menor elemento
@@ -57,7 +60,9 @@ int selectionSort(int *array, int size) {
 
 // Implementado por: Gui
 int insertionSort(int *array, int size) {
-   int index, compare_sum;
+   int index;
+   long compare_sum;
+
    for ( index = 1; index < size; ++index) {
       int x = array[index]; // valor da nova posição do vetor j, que será inserida
       int i;
@@ -70,10 +75,64 @@ int insertionSort(int *array, int size) {
    }
 }
 
-//Implementado por: Alisson
-int heapSort( )
+//(Heap sort)
+int heapify(int *array, int size, int i, long compare_sum) 
 {
+    int largest = i; // Initialize largest as root
+    int left = 2 * i + 1; // Left child
+    int right = 2 * i + 2; // Right child
 
+    // If left child is larger than root
+    if (left < size && array[left] > array[largest]) {
+        largest = left;
+        compare_sum++;
+    }
+
+    // If right child is larger than largest so far
+    if (right < size && array[right] > array[largest]) {
+        largest = right;
+        compare_sum++;
+    }
+
+    // If the largest element is not the root
+    if (largest != i) {
+        // Swap array[i] and array[largest]
+        int temp = array[i];
+        array[i] = array[largest];
+        array[largest] = temp;
+
+        // Recursively heapify the affected sub-tree
+        heapify(array, size, largest, compare_sum);
+        compare_sum++;
+    }
+
+    return compare_sum;
+}
+
+//Implementado por: Alisson
+int heapSort(int *array, int size)
+{
+    long compare_sum;
+
+    // Build a max heap
+    for (int i = size / 2 - 1; i >= 0; i--) {
+        compare_sum += heapify(array, size, i, compare_sum);
+    }
+
+    // One by one extract elements from the heap
+    for (int i = size - 1; i >= 0; i--) {
+        
+
+        // Move the current root to the end
+        int temp = array[0];
+        array[0] = array[i];
+        array[i] = temp;
+
+        // Call max heapify on the reduced heap
+        compare_sum += heapify(array, i, 0, compare_sum);
+    }
+
+    return compare_sum;
 }
 
 // Implementado por: Alisson
