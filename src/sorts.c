@@ -222,35 +222,52 @@ void quickSort(int *array, int low, int high)
 }
 
 //Implementado por: Gilberto
+// Função para ordenar um array de inteiros usando o algoritmo Counting Sort.
 void countSort(int *array, int n) {
+    // Encontre o valor máximo no array
     int max = array[0];
     for (int i = 1; i < n; i++) {
-        if (arr[i] > max) {
-            max = arr[i];
+        if (array[i] > max) {
+            max = array[i];
         }
     }
+    // Aloque memória para os arrays 'count' e 'output'
     int *count = (int *)malloc((max + 1) * sizeof(int));
     int *output = (int *)malloc(n * sizeof(int));
+    // Verifique se a alocação de memória foi bem-sucedida
     if (count == NULL || output == NULL) {
         printf("Falha na alocação de memória.\n");
+        // Libere qualquer memória alocada antes de sair
+        if (count != NULL) {
+            free(count);
+        }
+        if (output != NULL) {
+            free(output);
+        }
         return;
     }
+    // Inicialize o array 'count' com zeros
     for (int i = 0; i <= max; i++) {
         count[i] = 0;
     }
+    // Conte a ocorrência de cada valor no array de entrada
     for (int i = 0; i < n; i++) {
         count[array[i]]++;
     }
+    // Atualize o array 'count' para conter as posições corretas no array de saída
     for (int i = 1; i <= max; i++) {
         count[i] += count[i - 1];
     }
+    // Coloque os elementos do array de entrada nas posições corretas do array de saída
     for (int i = n - 1; i >= 0; i--) {
         output[count[array[i]] - 1] = array[i];
         count[array[i]]--;
     }
+    // Copie os elementos ordenados de volta para o array de entrada
     for (int i = 0; i < n; i++) {
         array[i] = output[i];
     }
+    // Libere a memória alocada para os arrays 'count' e 'output'
     free(count);
     free(output);
 }
