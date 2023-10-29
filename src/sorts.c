@@ -222,9 +222,37 @@ void quickSort(int *array, int low, int high)
 }
 
 //Implementado por:
-int countSort( )
-{
-
+void countSort(int arr[], int n) {
+    int max = arr[0];
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }
+    int *count = (int *)malloc((max + 1) * sizeof(int));
+    int *output = (int *)malloc(n * sizeof(int));
+    if (count == NULL || output == NULL) {
+        printf("Falha na alocação de memória.\n");
+        return;
+    }
+    for (int i = 0; i <= max; i++) {
+        count[i] = 0;
+    }
+    for (int i = 0; i < n; i++) {
+        count[arr[i]]++;
+    }
+    for (int i = 1; i <= max; i++) {
+        count[i] += count[i - 1];
+    }
+    for (int i = n - 1; i >= 0; i--) {
+        output[count[arr[i]] - 1] = arr[i];
+        count[arr[i]]--;
+    }
+    for (int i = 0; i < n; i++) {
+        arr[i] = output[i];
+    }
+    free(count);
+    free(output);
 }
 
 //Implementado por:
@@ -234,7 +262,46 @@ int bucketSort( )
 }
 
 //Implementado por:
-int radixSort( )
-{
-
+int getDigit(int num, int position) { // Função para encontrar o dígito na posição especificada
+    int divider = 1;
+    for (int i = 0; i < position; i++) {
+        divider *= 10;
+    }
+    return (num / divider) % 10;
+}
+int findMaxDigit(int arr[], int n) { // Função para encontrar o dígito mais significativo no vetor
+    int max = arr[0];
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }
+    int digitCount = 0;
+    while (max > 0) {
+        max /= 10;
+        digitCount++;
+    }
+    return digitCount;
+}
+void radixSort(int arr[], int n) {
+    int maxDigit = findMaxDigit(arr, n);
+    for (int position = 0; position < maxDigit; position++) {
+        int output[n];
+        int count[10] = {0};
+        for (int i = 0; i < n; i++) {
+            int digit = getDigit(arr[i], position);
+            count[digit]++;
+        }
+        for (int i = 1; i < 10; i++) {
+            count[i] += count[i - 1];
+        }
+        for (int i = n - 1; i >= 0; i--) {
+            int digit = getDigit(arr[i], position);
+            output[count[digit] - 1] = arr[i];
+            count[digit]--;
+        }
+        for (int i = 0; i < n; i++) {
+            arr[i] = output[i];
+        }
+    }
 }
