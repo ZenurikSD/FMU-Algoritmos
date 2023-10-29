@@ -1,3 +1,4 @@
 src/vetores/*
 .vscode/*
 */.directory
+*/*.csv

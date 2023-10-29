@@ -30,6 +30,15 @@ int main(void)
 
 
     // =============================================================================
+    // Prepara o arquivo csv
+    char csv_name[30];
+    sprintf(csv_name, "RESULTADO-%i.csv", size);
+
+    FILE *write_p = fopen(csv_name, "a+");
+    fputs("Algoritmo,Tempo (seg)\n", write_p);
+
+
+    // =============================================================================
     // Repete para todos os algoritmos: 
     // Lê todos os vetores de tamanho X e executa o algoritmo em cada um deles
     for (int algo_n = 1; algo_n < 7; algo_n++)
@@ -99,13 +108,15 @@ int main(void)
             free(array);
 
         }
-        float time_avg = (float) result->timesum / CLOCKS_PER_SEC;
-        printf("%s sort executado em %f\n", result->sortname, time_avg);
-       
+        double time_avg = (double) result->timesum / CLOCKS_PER_SEC;
+        printf("%s sort executado em %lf segundo(s)\n", result->sortname, time_avg);
+
+        fprintf(write_p, "%s,%lf\n", result->sortname, time_avg);
     }
 
     printf("✅ Todos os vetores[%i] foram processados\n", size);
     free(result);
+    fclose(write_p);
 }
 
 
