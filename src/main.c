@@ -27,6 +27,7 @@ int main(void)
     for (int algo_n = 1; algo_n < 4; algo_n++)
     {
         char filename[strlen(file_tmp) + 6];
+
         for (int i = 0; i < array_qty; i++ ){
             int *array = malloc(sizeof(int) * size);
             sprintf(filename, "%s-%i", file_tmp, i+1);
@@ -75,6 +76,7 @@ int main(void)
             free(array);
         }
     }
+    printf("✅ Todos os vetores foram processados\n");
 }
 
 
