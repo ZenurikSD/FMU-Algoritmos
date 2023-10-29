@@ -277,19 +277,18 @@ void countSort(int *array, int n) {
 int findMax(int *array, int n) {
     int max = array[0];
     for (int i = 1; i < n; i++) {
-        if (arr[i] > max) {
+        if (array[i] > max) {
             max = array[i];
         }
     }
     return max;
 }
-
 // Função para inserir um elemento em um balde (bucket)
 void insertInBucket(int *array, int n, int bucket, int min, int range) {
     // Calcula o tamanho do balde
     int bucketSize = range / n;
     // Calcula o índice do balde para o elemento
-    int bucketIndex = (array[n] - min) / bucketSize;
+    int bucketIndex = (array[n - 1] - min) / bucketSize;
     // Inicializa variáveis para inserção
     int last = n - 1;
     int temp = array[n];
@@ -313,14 +312,17 @@ void bucketSort(int *array, int n) {
     // Calcula a faixa de valores
     int range = max - min + 1;
 
+    // Define o número de baldes
+    int numBuckets = n; // Alterado de n para o número desejado de baldes
+
     // Cria os baldes
-    int **buckets = (int **)malloc(n * sizeof(int *));
-    for (int i = 0; i < n; i++) {
+    int **buckets = (int **)malloc(numBuckets * sizeof(int *));
+    for (int i = 0; i < numBuckets; i++) {
         buckets[i] = (int *)malloc(n * sizeof(int));
     }
 
     // Inicializa os baldes
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < numBuckets; i++) {
         for (int j = 0; j < n; j++) {
             buckets[i][j] = -1;
         }
@@ -329,14 +331,14 @@ void bucketSort(int *array, int n) {
     // Distribui os elementos nos baldes
     for (int i = 0; i < n; i++) {
         // Calcula o índice do balde para o elemento
-        int bucket = n * (array[i] - min) / range;
+        int bucket = numBuckets * (array[i] - min) / range;
         // Insere o elemento no balde apropriado
         insertInBucket(buckets[bucket], i, bucket, min, range);
     }
 
     // Junta os elementos dos baldes de volta ao vetor original
     int index = 0;
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < numBuckets; i++) {
         for (int j = 0; j < n; j++) {
             if (buckets[i][j] != -1) {
                 array[index] = buckets[i][j];
@@ -346,7 +348,7 @@ void bucketSort(int *array, int n) {
     }
 
     // Libera a memória alocada para os baldes
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < numBuckets; i++) {
         free(buckets[i]);
     }
     free(buckets);
