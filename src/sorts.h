@@ -7,9 +7,9 @@ int isSorted(int *array, int size);
 
 int bubbleSort(int *array, int size);
 
-int selectionSort( );
+int selectionSort(int *array, int size);
 
-int insertionSort( );
+int insertionSort(int *array, int size);
 
 int heapSort( );
 
