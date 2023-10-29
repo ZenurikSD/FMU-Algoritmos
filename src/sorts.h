@@ -5,25 +5,31 @@
 
 int isSorted(int *array, int size);
 
-int bubbleSort(int *array, int size);
+void bubbleSort(int *array, int size);
 
-int selectionSort(int *array, int size);
+void selectionSort(int *array, int size);
 
-int insertionSort(int *array, int size);
+void insertionSort(int *array, int size);
 
-int heapify(int *array, int size, int i, long compare_sum);
+void heapify(int *array, int size, int i);
 
-int heapSort(int *array, int size);
+void heapSort(int *array, int size);
 
-int mergeSort( );
+void merge(int *array, int l, int m, int r);
 
-int quickSort( );
+void mergeSort(int *array, int l, int r);
 
-int countSort( );
+void swap(int *a, int *b);
 
-int bucketSort( );
+int partition(int *array, int low, int high);
 
-int radixSort( );
+void quickSort(int *array, int low, int high);
+
+void countSort( );
+
+void bucketSort( );
+
+void radixSort( );
 
 
 #endif

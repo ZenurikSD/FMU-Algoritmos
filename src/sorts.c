@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 /* Insira a implementação da função de sort aqui
  * Copie a declaração da função no arquivo header para que funcione no main
@@ -17,66 +18,58 @@ int isSorted(int *array, int size)
 }
 
 // Implementado por: Gui Lindão
-int bubbleSort(int *array, int size) {
+void bubbleSort(int *array, int size) {
     int index, j;
     int swapped;
-    long compare_sum;
+
     for (index = 0; index < size - 1; index++) {
         swapped = 0;
         for (j = 0; j < size - index - 1; j++) {
             if (array[j] > array[j + 1]) { // se elemento for menor que o seguinte, troca
+
                 int aux = array[j]; 
                 array[j] = array[j + 1];
                 array[j+1]= aux;
                 swapped = 1;
-                compare_sum++;
             }
         }
         if (swapped == 0)
             break;
     }
-
-    return compare_sum;
 }
 
 // Implementado por: Gui
-int selectionSort(int *array, int size) {
+void selectionSort(int *array, int size) {
    int index,j;
-   long compare_sum;
    
    for (index = 0; index < size-1; ++index) {
       int min = index; // vai procurar elemento que deve ir na posição index
       for (j = index+1; j < size; ++j) // procura o menor elemento
          if (array[j] < array[min]){
             min = j;
-            compare_sum++;
          }
             
       int x = array[index]; array[index] = array[min]; array[min] = x; // coloca o elemento no local certo
    }
-
-   return compare_sum;
 }
 
 // Implementado por: Gui
-int insertionSort(int *array, int size) {
+void insertionSort(int *array, int size) {
    int index;
-   long compare_sum;
-
+   
    for ( index = 1; index < size; ++index) {
       int x = array[index]; // valor da nova posição do vetor j, que será inserida
       int i;
 
       for (i = index-1; i >= 0 && array[i] > x; --i){  // desloca o elemento para a esquerda enquando é menor
          array[i+1] = array[i];
-         compare_sum++;
       } 
       array[i+1] = x; // insere o elemento na posição correta
    }
 }
 
 //(Heap sort)
-int heapify(int *array, int size, int i, long compare_sum) 
+void heapify(int *array, int size, int i) 
 {
     int largest = i; // Initialize largest as root
     int left = 2 * i + 1; // Left child
@@ -85,13 +78,11 @@ int heapify(int *array, int size, int i, long compare_sum)
     // If left child is larger than root
     if (left < size && array[left] > array[largest]) {
         largest = left;
-        compare_sum++;
     }
 
     // If right child is larger than largest so far
     if (right < size && array[right] > array[largest]) {
         largest = right;
-        compare_sum++;
     }
 
     // If the largest element is not the root
@@ -102,21 +93,18 @@ int heapify(int *array, int size, int i, long compare_sum)
         array[largest] = temp;
 
         // Recursively heapify the affected sub-tree
-        heapify(array, size, largest, compare_sum);
-        compare_sum++;
+        heapify(array, size, largest);
     }
-
-    return compare_sum;
 }
 
 //Implementado por: Alisson
-int heapSort(int *array, int size)
+void heapSort(int *array, int size)
 {
-    long compare_sum;
+    
 
     // Build a max heap
     for (int i = size / 2 - 1; i >= 0; i--) {
-        compare_sum += heapify(array, size, i, compare_sum);
+        heapify(array, size, i);
     }
 
     // One by one extract elements from the heap
@@ -129,22 +117,108 @@ int heapSort(int *array, int size)
         array[i] = temp;
 
         // Call max heapify on the reduced heap
-        compare_sum += heapify(array, i, 0, compare_sum);
+        heapify(array, i, 0);
+    }
+}
+
+// (Merge sort)
+void merge(int *array, int l, int m, int r) {
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
+
+    // Create temporary arrays
+    int* L = (int*)malloc(n1 * sizeof(int));
+    int* R = (int*)malloc(n2 * sizeof(int));
+
+    // Copy data to temp arrays L[] and R[]
+    for (i = 0; i < n1; i++) {
+        L[i] = array[l + i];
+    }
+    for (j = 0; j < n2; j++) {
+        R[j] = array[m + 1 + j];
     }
 
-    return compare_sum;
+    // Merge the temp arrays back into array[l..r]
+    i = 0;
+    j = 0;
+    k = l;
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            array[k] = L[i];
+            i++;
+        } else {
+            array[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    // Copy the remaining elements of L[], if there are any
+    while (i < n1) {
+        array[k] = L[i];
+        i++;
+        k++;
+    }
+
+    // Copy the remaining elements of R[], if there are any
+    while (j < n2) {
+        array[k] = R[j];
+        j++;
+        k++;
+    }
+
+    // Free the temporary arrays
+    free(L);
+    free(R);
 }
 
 // Implementado por: Alisson
-int mergeSort( )
-{
+void mergeSort(int *array, int l, int r) {
+    if (l < r) {
+        // Same as (l+r)/2, but avoids overflow
+        int m = l + (r - l) / 2;
 
+        // Sort first and second halves
+        mergeSort(array, l, m);
+        mergeSort(array, m + 1, r);
+
+        // Merge the sorted halves
+        merge(array, l, m, r);
+    }
+}
+
+// (Quick-sort)
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+// (Quick-sort)
+int partition(int *array, int low, int high) {
+    int pivot = array[high]; // Choose the rightmost element as the pivot
+    int i = (low - 1);     // Initialize the index of the smaller element
+
+    for (int j = low; j <= high - 1; j++) {
+        // If the current element is smaller than or equal to the pivot
+        if (array[j] <= pivot) {
+            i++; // Increment the index of the smaller element
+            swap(&array[i], &array[j]);
+        }
+    }
+    swap(&array[i + 1], &array[high]);
+    return (i + 1); // Return the index of the pivot
 }
 
 //Implementado por: Alisson
-int quickSort( )
+void quickSort(int *array, int low, int high)
 {
-
+    if (low < high) {
+        int pivot = partition(array, low, high); // Get the pivot element such that
+        quickSort(array, low, pivot - 1);       // elements smaller than pivot are on the left
+        quickSort(array, pivot + 1, high);      // elements greater than pivot are on the right
+    }
 }
 
 //Implementado por:

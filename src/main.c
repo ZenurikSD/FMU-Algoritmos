@@ -7,7 +7,7 @@
 //Armazena o nome do algoritmo usado e a soma das comparações feitas por ele
 typedef struct results{
     char *sortname;
-    long comparesum;
+    int timesum;
 } results;
 
 int readArray(int *target, int size, char *filename);
@@ -32,10 +32,10 @@ int main(void)
     // =============================================================================
     // Repete para todos os algoritmos: 
     // Lê todos os vetores de tamanho X e executa o algoritmo em cada um deles
-    for (int algo_n = 1; algo_n < 5; algo_n++)
+    for (int algo_n = 1; algo_n < 7; algo_n++)
     {
         char filename[strlen(file_tmp) + 6];
-        result->comparesum = 0;
+        result->timesum = 0;
         result->sortname = " ";
 
         for (int i = 0; i < array_qty; i++ ){
@@ -44,47 +44,51 @@ int main(void)
 
             readArray(array, size, filename);
 
+            //Verifica o tempo antes e depois da execução do algoritmo
+            clock_t time_c = clock();
+
             // Executa um algoritmo para cada loop exterior:
             switch (algo_n){
                 case 1:
                     result->sortname = "Bubble";
-                    result->comparesum += bubbleSort(array, size);
+                    bubbleSort(array, size);
                     break;
                 case 2:
                     result->sortname = "Selection";
-                    result->comparesum += selectionSort(array, size);
+                    selectionSort(array, size);
                     break;
                 case 3:
                     result->sortname = "Insertion";
-                    result->comparesum += insertionSort(array, size);
+                    insertionSort(array, size);
                     break;
                 case 4:
                     result->sortname = "Heap";
-                    result->comparesum += heapSort(array, size);
+                    heapSort(array, size);
                     break;
                 case 5:
                     result->sortname = "Merge";
-                    result->comparesum += mergeSort(array, size);
+                    mergeSort(array, 0, size - 1);
                     break;
                 case 6:
                     result->sortname = "Quick";
-                    result->comparesum += quickSort(array, size);
+                    quickSort(array, 0, size - 1);
                     break;
                 case 7:
                     result->sortname = "Count";
-                    result->comparesum += countSort(array, size);
+                    countSort(array, size);
                     break;
                 case 8:
                     result->sortname = "Bucket";
-                    result->comparesum += bucketSort(array, size);
+                    bucketSort(array, size);
                     break;
                 case 9:
                     result->sortname = "Radix";
-                    result->comparesum += radixSort(array, size);
+                    radixSort(array, size);
                     break;
                 default:
                     break;
             }
+            result->timesum += (clock() - time_c);
 
             if (isSorted(array, size)){
                 printf("[%i] Está ordenado\n", i+1);
@@ -93,13 +97,11 @@ int main(void)
             }
 
             free(array);
-        }
 
-        printf(
-            "Soma de comparações %s sort: %li\n", 
-            result->sortname,
-            result->comparesum
-        );
+        }
+        float time_avg = (float) result->timesum / CLOCKS_PER_SEC;
+        printf("%s sort executado em %f\n", result->sortname, time_avg);
+       
     }
 
     printf("✅ Todos os vetores[%i] foram processados\n", size);
