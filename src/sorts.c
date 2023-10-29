@@ -226,10 +226,84 @@ void quickSort(int *array, int low, int high)
 void countSort( ) {
 }
 
-//Implementado por:
-int bucketSort( )
-{
+//Implementado por: Gilberto
+// Função para encontrar o valor máximo no vetor
+int findMax(int *array, int n) {
+    int max = array[0];
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > max) {
+            max = array[i];
+        }
+    }
+    return max;
+}
 
+// Função para inserir um elemento em um balde (bucket)
+void insertInBucket(int *array, int n, int bucket, int min, int range) {
+    // Calcula o tamanho do balde
+    int bucketSize = range / n;
+    // Calcula o índice do balde para o elemento
+    int bucketIndex = (array[n] - min) / bucketSize;
+    // Inicializa variáveis para inserção
+    int last = n - 1;
+    int temp = array[n];
+
+    // Move elementos maiores para frente para inserir o novo elemento
+    while (last >= 0 && array[last] < temp) {
+        array[last + 1] = array[last];
+        last--;
+    }
+
+    // Insere o novo elemento no balde
+    array[last + 1] = temp;
+}
+
+// Função para ordenar um vetor usando o algoritmo Bucket Sort
+void bucketSort(int *array, int n) {
+    // Encontra o valor máximo no vetor
+    int max = findMax(array, n);
+    // Encontra o valor mínimo no vetor
+    int min = array[0];
+    // Calcula a faixa de valores
+    int range = max - min + 1;
+
+    // Cria os baldes
+    int **buckets = (int **)malloc(n * sizeof(int *));
+    for (int i = 0; i < n; i++) {
+        buckets[i] = (int *)malloc(n * sizeof(int));
+    }
+
+    // Inicializa os baldes
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            buckets[i][j] = -1;
+        }
+    }
+
+    // Distribui os elementos nos baldes
+    for (int i = 0; i < n; i++) {
+        // Calcula o índice do balde para o elemento
+        int bucket = n * (array[i] - min) / range;
+        // Insere o elemento no balde apropriado
+        insertInBucket(buckets[bucket], i, bucket, min, range);
+    }
+
+    // Junta os elementos dos baldes de volta ao vetor original
+    int index = 0;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (buckets[i][j] != -1) {
+                array[index] = buckets[i][j];
+                index++;
+            }
+        }
+    }
+
+    // Libera a memória alocada para os baldes
+    for (int i = 0; i < n; i++) {
+        free(buckets[i]);
+    }
+    free(buckets);
 }
 
 //Implementado por: Gilberto
