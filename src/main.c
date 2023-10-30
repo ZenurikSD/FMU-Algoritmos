@@ -40,7 +40,7 @@ int main(void)
         // =============================================================================
         // Repete para todos os algoritmos: 
         // Lê todos os vetores de tamanho X e executa o algoritmo em cada um deles
-        for (int algo_n = 1; algo_n < 8; algo_n++)
+        for (int algo_n = 1; algo_n < 10; algo_n++)
         {
             char filename[strlen(file_tmp) + 6];
             result->timesum = 0;
@@ -82,30 +82,32 @@ int main(void)
                         quickSort(array, 0, size - 1);
                         break;
                     case 7:
-                        /* result->sortname = "Count";
+                        result->sortname = "Count";
                         countSort(array, size);
                         break;
                     case 8:
                         result->sortname = "Bucket";
                         bucketSort(array, size);
                         break;
-                    case 9: */
+                    case 9:
                         result->sortname = "Radix";
                         radixSort(array, size);
                         break;
                     default:
                         break;
                 }
+
                 result->timesum += (clock() - time_c);
 
                 if (isSorted(array, size)){
                     printf("[%i] Está ordenado\n", i+1);
                 } else {
                     printf("[%i] Desordenado\n", i+1);
+                    printf("❌ %s sort falhou\n", result->sortname);
+                    return 1;
                 }
 
                 free(array);
-
             }
             double time_avg = (double) result->timesum / CLOCKS_PER_SEC;
             printf("%s sort executado em %lf segundo(s)\n", result->sortname, time_avg);

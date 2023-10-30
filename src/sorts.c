@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* Insira a implementação da função de sort aqui
- * Copie a declaração da função no arquivo header para que funcione no main
- * Todos os sorts precisam ter um retorno do número de comparações IF que fazem
- */
+// (Bucket sort) Define a structure for the elements in the buckets
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
 
 /** Verifica se um vetor está em ordem crescente */
 int isSorted(int *array, int size)
@@ -222,137 +224,86 @@ void quickSort(int *array, int low, int high)
 }
 
 //Implementado por: Gilberto
-// Função para ordenar um array de inteiros usando o algoritmo Counting Sort.
 void countSort(int *array, int size) {
-    // Encontre o valor máximo no array
     int max = array[0];
     for (int i = 1; i < size; i++) {
         if (array[i] > max) {
             max = array[i];
         }
     }
-    // Aloque memória para os arrays 'count' e 'output'
-    int *count = (int *)malloc((max + 1) * sizeof(int));
-    int *output = (int *)malloc(size * sizeof(int));
-    // Verifique se a alocação de memória foi bem-sucedida
-    if (count == NULL || output == NULL) {
-        printf("Falha na alocação de memória.\n");
-        // Libere qualquer memória alocada antes de sair
-        if (count != NULL) {
-            free(count);
-        }
-        if (output != NULL) {
-            free(output);
-        }
-        return;
-    }
-    // Inicialize o array 'count' com zeros
+
+    int count[max + 1];
+    int output[size];
+
     for (int i = 0; i <= max; i++) {
         count[i] = 0;
     }
-    // Conte a ocorrência de cada valor no array de entrada
+
     for (int i = 0; i < size; i++) {
         count[array[i]]++;
     }
-    // Atualize o array 'count' para conter as posições corretas no array de saída
+
     for (int i = 1; i <= max; i++) {
         count[i] += count[i - 1];
     }
-    // Coloque os elementos do array de entrada nas posições corretas do array de saída
+
     for (int i = size - 1; i >= 0; i--) {
         output[count[array[i]] - 1] = array[i];
         count[array[i]]--;
     }
-    // Copie os elementos ordenados de volta para o array de entrada
+
     for (int i = 0; i < size; i++) {
         array[i] = output[i];
     }
-    // Libere a memória alocada para os arrays 'count' e 'output'
-    free(count);
-    free(output);
 }
 
-//(Bucket-sort) Implementado por: Gilberto
-// Função para encontrar o valor máximo no vetor
-int findMax(int *array, int size) {
-    int max = array[0];
-    for (int i = 1; i < size; i++) {
-        if (array[i] > max) {
-            max = array[i];
-        }
+//(Bucket sort) Function to find maximum element of the array
+int maxElement(int *array, int size) 
+{  
+    // Initializing max variable to minimum value so that it can be updated
+    // when we encounter any element which is greater than it.
+    int max = -1;  
+    for (int i = 0; i < size; i++)
+    {
+        //Updating max when array[i] is greater than max
+        if (array[i] > max)  
+        max = array[i];  
     }
-    return max;
+    //return the max element
+    return max;  
 }
-// Função para inserir um elemento em um balde (bucket)
-void insertInBucket(int *array, int n, int bucket, int min, int range) {
-    // Calcula o tamanho do balde
-    int bucketSize = range / n;
-    // Calcula o índice do balde para o elemento
-    int bucketIndex = (array[n - 1] - min) / bucketSize;
-    // Inicializa variáveis para inserção
-    int last = n - 1;
-    int temp = array[n];
+ 
+//Implementado por: Gilberto
+void bucketSort(int *array, int size) 
+{  
+    //Finding max element of array which we will use to create buckets
+    int max = maxElement(array, size); 
 
-    // Move elementos maiores para frente para inserir o novo elemento
-    while (last >= 0 && array[last] < temp) {
-        array[last + 1] = array[last];
-        last--;
-    }
+    // Creating buckets 
+    int bucket[max+1];  
 
-    // Insere o novo elemento no balde
-    array[last + 1] = temp;
-}
+    //Initializing buckets to zero
+    for (int i = 0; i <= max; i++)  
+        bucket[i] = 0;  
 
-// Função para ordenar um vetor usando o algoritmo Bucket Sort
-void bucketSort(int *array, int size) {
-    // Encontra o valor máximo no vetor
-    int max = findMax(array, size);
-    // Encontra o valor mínimo no vetor
-    int min = array[0];
-    // Calcula a faixa de valores
-    int range = max - min + 1;
+    // Pushing elements in their corresponding buckets
+    for (int i = 0; i < size; i++)  
+        bucket[array[i]]++;
 
-    // Define o número de baldes
-    int numBuckets = size; // Alterado de n para o número desejado de baldes
-
-    // Cria os baldes
-    int **buckets = (int **)malloc(numBuckets * sizeof(int *));
-    for (int i = 0; i < numBuckets; i++) {
-        buckets[i] = (int *)malloc(size * sizeof(int));
-    }
-
-    // Inicializa os baldes
-    for (int i = 0; i < numBuckets; i++) {
-        for (int j = 0; j < size; j++) {
-            buckets[i][j] = -1;
-        }
-    }
-
-    // Distribui os elementos nos baldes
-    for (int i = 0; i < size; i++) {
-        // Calcula o índice do balde para o elemento
-        int bucket = numBuckets * (array[i] - min) / range;
-        // Insere o elemento no balde apropriado
-        insertInBucket(buckets[bucket], i, bucket, min, range);
-    }
-
-    // Junta os elementos dos baldes de volta ao vetor original
-    int index = 0;
-    for (int i = 0; i < numBuckets; i++) {
-        for (int j = 0; j < size; j++) {
-            if (buckets[i][j] != -1) {
-                array[index] = buckets[i][j];
-                index++;
-            }
-        }
-    }
-
-    // Libera a memória alocada para os baldes
-    for (int i = 0; i < numBuckets; i++) {
-        free(buckets[i]);
-    }
-    free(buckets);
-}
+    // Merging buckets effectively
+    int j=0;   // j is a variable which points at the index we are updating
+    for (int i = 0; i <= max; i++)  
+    { 
+        // Running while loop until there is an element in the bucket
+        while (bucket[i] > 0)  
+        {  
+            // Updating array and increment j          
+            array[j++] = i;  
+            // Decreasing count of bucket element
+            bucket[i]--;   
+        }  
+    }  
+}  
 
 //(Radix sort) Implementado por: Gilberto
 int getDigit(int num, int position) { // Função para encontrar o dígito na posição especificada

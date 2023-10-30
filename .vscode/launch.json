@@ -4,11 +4,12 @@
     // Para obter mais informações, acesse: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        
         {
             "name": "(gdb) Iniciar",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/home/zenu/Projetos/FMU-Algoritmos/main",
+            "program": "${fileDirname}/main",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

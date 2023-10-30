@@ -27,9 +27,7 @@ void quickSort(int *array, int low, int high);
 
 void countSort(int *array, int size);
 
-int findMax(int *array, int size);
-
-void insertInBucket(int *array, int i, int bucket, int min, int range);
+int maxElement(int *array, int size);
 
 void bucketSort(int *array, int size);
 

@@ -1,3 +1,4 @@
+#define _DEFAULT_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -45,7 +46,7 @@ int main(void)
 }
 
 
-/** Preenche um vetor com números inteiros aleatórios
+/** Preenche um vetor com números inteiros aleatórios entre 0 e 1000
  * @param array Um vetor vazio
  * @param size O tamanho do vetor
  */
@@ -53,7 +54,7 @@ void fillWithRandom(int *array, int size)
 {
     for (int i = 0; i < size; i++)
     {
-        array[i] = rand();
+        array[i] = (random() / ((double) RAND_MAX + 1)) * 1001;
     }
 }
 
